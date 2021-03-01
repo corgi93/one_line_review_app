@@ -37,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _children = [
     HomePage(),
-    SearchPage(),
     MyMoviesPage(),
     WriteReviewPage(),
     ProfilePage()
@@ -70,10 +69,10 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.home),
               label: '홈',
             ),
-            new BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              label: '검색',
-            ),
+//            new BottomNavigationBarItem(
+//              icon: Icon(Icons.search),
+//              label: '검색',
+//            ),
             new BottomNavigationBarItem(
               icon: Icon(Icons.mail),
               label: '내 영화관',

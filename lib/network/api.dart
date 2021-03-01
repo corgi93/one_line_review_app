@@ -2,16 +2,15 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class HttpHelper {
-  final String url;
-  // constructor 생성시 url받도록.
-  HttpHelper(this.url);
-
-  String brandListURL(brandName) {
-    return 'http://makeup-api.herokuapp.com/api/v1/products.json?brand=$brandName';
+  /*
+  *  @ end-point 정의 하기
+  * */
+  static String brandListURL(brandName) {
+    return 'https://makeup-api.herokuapp.com/api/v1/products.json?brand=$brandName';
   }
 
   // get home datas(GET)
-  Future getBrandProduct(brandName) async {
+  static Future getBrandProduct(brandName) async {
     http.Response res = await http.get(brandListURL(brandName));
 
     if (res.statusCode == 200) {
