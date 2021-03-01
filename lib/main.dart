@@ -5,6 +5,10 @@ import 'package:one_line_review_app/pages/tabs/search_page.dart';
 import 'package:one_line_review_app/pages/tabs/write_review_page.dart';
 import 'package:one_line_review_app/pages/tabs/profile_page.dart';
 
+// auth
+//import 'package:one_line_review_app/pages/auth/sign_in.dart';
+//import 'package:one_line_review_app/pages/auth/sign_up.dart';
+
 void main() {
   runApp(MyApp());
 }
