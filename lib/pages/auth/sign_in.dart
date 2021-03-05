@@ -55,6 +55,18 @@ class _SignInState extends State<SignIn> with ValidationMixin {
               width: double.infinity,
               child: signUpButton(),
             ),
+            Container(
+              margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
+              height: 50.0,
+              width: double.infinity,
+              child: googleButton(),
+            ),
+            Container(
+              margin: EdgeInsets.only(left: 50.0, right: 50.0, top: 20.0),
+              height: 50.0,
+              width: double.infinity,
+              child: naverButton(),
+            ),
           ],
         ),
       ),
@@ -120,6 +132,80 @@ class _SignInState extends State<SignIn> with ValidationMixin {
             fontSize: 18,
             fontWeight: FontWeight.bold,
           )),
+      onPressed: () {
+        // Navigator.of(context).push(MaterialPageRoute(
+        //   builder: (context) => SignUp(),
+        // )).then((value) {
+        //   setState(() {});
+        // });
+      },
+    );
+  }
+
+  Widget googleButton() {
+    return RaisedButton(
+      color: Colors.white,
+      child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: new Image.asset(
+                'assets/google.png',
+                height: 25.0,
+                width: 25.0,
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.only(left: 25.0),
+                child: new Text(
+                  "Sign in with Google",
+                  style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
+            )
+          ]
+      ),
+      onPressed: () {
+        // Navigator.of(context).push(MaterialPageRoute(
+        //   builder: (context) => SignUp(),
+        // )).then((value) {
+        //   setState(() {});
+        // });
+      },
+    );
+  }
+
+  Widget naverButton() {
+    return RaisedButton(
+      color: Color(0xff1EC800),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 10.0),
+            child: new Image.asset(
+              'assets/naver.png',
+              height: 25.0,
+              width: 25.0,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 25.0),
+            child: new Text(
+              "Sign in with NAVER",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
+              ),
+            )
+          )
+        ]
+      ),
       onPressed: () {
         // Navigator.of(context).push(MaterialPageRoute(
         //   builder: (context) => SignUp(),
