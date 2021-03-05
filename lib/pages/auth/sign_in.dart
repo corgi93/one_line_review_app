@@ -21,18 +21,13 @@ class _SignInState extends State<SignIn> with ValidationMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-                margin: EdgeInsets.only(bottom: 20.0),
-                color: Colors.blue,
-                width: 100.0,
-                height: 100.0,
-                child: Text(
-                  'logo',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                  ),
-                  textAlign: TextAlign.center,
-                )),
+              margin: EdgeInsets.only(bottom: 20.0),
+              width: 100.0,
+              height: 100.0,
+              child: new Image.asset(
+                'assets/logo3.png',
+              ),
+            ),
             Container(
               margin: EdgeInsets.only(
                   left: 50.0, right: 50.0, top: 10.0, bottom: 10.0),
