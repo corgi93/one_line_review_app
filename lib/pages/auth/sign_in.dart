@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:developer';
+
+import 'package:one_line_review_app/pages/tabs/home_page.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -9,8 +14,56 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> with ValidationMixin {
   final formKey = GlobalKey<FormState>();
-  String email = '';
-  String password = '';
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+  FirebaseUser currentUser;
+  String name = "";
+  String email = "";
+  String password = "";
+  String url = "";
+
+  Future<FirebaseUser> googleSingIn() async {
+    final GoogleSignInAccount account = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleAuth = await account.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    setState(() {
+      email = user.email;
+      url = user.photoUrl;
+      name = user.displayName;
+    });
+
+    log('구글 로그인 성공');
+    log(email);
+    log(name);
+    return user;
+  }
+
+  void googleSignOut() async {
+    await _auth.signOut();
+    await googleSignIn.signOut();
+
+    setState(() {
+      email = "";
+      url = "";
+      name = "";
+    });
+
+    print("User Sign Out");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,6 +181,7 @@ class _SignInState extends State<SignIn> with ValidationMixin {
             fontWeight: FontWeight.bold,
           )),
       onPressed: () {
+        log('회원가입 클릭');
         // Navigator.of(context).push(MaterialPageRoute(
         //   builder: (context) => SignUp(),
         // )).then((value) {
@@ -165,11 +219,14 @@ class _SignInState extends State<SignIn> with ValidationMixin {
           ]
       ),
       onPressed: () {
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => SignUp(),
-        // )).then((value) {
-        //   setState(() {});
-        // });
+        log('google sigin in 클릭');
+        googleSingIn().then((FirebaseUser user){
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HomePage(),
+          )).then((value) {
+            setState(() {});
+          });
+        }).catchError((e) => print(e));
       },
     );
   }
@@ -178,28 +235,28 @@ class _SignInState extends State<SignIn> with ValidationMixin {
     return RaisedButton(
       color: Color(0xff1EC800),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 10.0),
-            child: new Image.asset(
-              'assets/naver.png',
-              height: 25.0,
-              width: 25.0,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 25.0),
-            child: new Text(
-              "Sign in with NAVER",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: new Image.asset(
+                'assets/naver.png',
+                height: 25.0,
+                width: 25.0,
               ),
+            ),
+            Padding(
+                padding: EdgeInsets.only(left: 25.0),
+                child: new Text(
+                  "Sign in with NAVER",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold
+                  ),
+                )
             )
-          )
-        ]
+          ]
       ),
       onPressed: () {
         // Navigator.of(context).push(MaterialPageRoute(
