@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_naver_login: ^1.2.0
+  flutter_webview_plugin: ^0.3.11
   http: ^0.12.2
   firebase_auth: ^0.16.0
   google_sign_in: ^4.4.4

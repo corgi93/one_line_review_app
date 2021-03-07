@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:developer';
 
@@ -194,30 +196,25 @@ class _SignInState extends State<SignIn> with ValidationMixin {
   Widget googleButton() {
     return RaisedButton(
       color: Colors.white,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: new Image.asset(
-                'assets/google.png',
-                height: 25.0,
-                width: 25.0,
-              ),
-            ),
-            Padding(
-                padding: EdgeInsets.only(left: 25.0),
-                child: new Text(
-                  "Sign in with Google",
-                  style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold
-                  ),
-                )
-            )
-          ]
-      ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 10.0),
+          child: new Image.asset(
+            'assets/google.png',
+            height: 25.0,
+            width: 25.0,
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: 25.0),
+            child: new Text(
+              "Sign in with Google",
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ))
+      ]),
       onPressed: () {
         log('google sigin in 클릭');
         googleSingIn().then((FirebaseUser user){
@@ -234,36 +231,49 @@ class _SignInState extends State<SignIn> with ValidationMixin {
   Widget naverButton() {
     return RaisedButton(
       color: Color(0xff1EC800),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: new Image.asset(
-                'assets/naver.png',
-                height: 25.0,
-                width: 25.0,
-              ),
+      child: Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 10.0),
+          child: new Image.asset(
+            'assets/naver.png',
+            height: 25.0,
+            width: 25.0,
+          ),
+        ),
+        Padding(
+            padding: EdgeInsets.only(left: 25.0),
+            child: new Text(
+              "Sign in with NAVER",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
+            ))
+      ]),
+      onPressed: () async {
+        // 로그인 api
+        String naverUrl = "http://127.0.0.1:3000/naverlogin";
+        String _nToken = await Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => WebviewScaffold(
+              url: naverUrl,
+              javascriptChannels: Set.from([
+                JavascriptChannel(
+                    name: "james",
+                    onMessageReceived: (JavascriptMessage result) async {
+                      if (result.message != null)
+                        return Navigator.of(context).pop(result.message);
+                      return Navigator.of(context).pop();
+                    }),
+              ]),
             ),
-            Padding(
-                padding: EdgeInsets.only(left: 25.0),
-                child: new Text(
-                  "Sign in with NAVER",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold
-                  ),
-                )
-            )
-          ]
-      ),
-      onPressed: () {
-        // Navigator.of(context).push(MaterialPageRoute(
-        //   builder: (context) => SignUp(),
-        // )).then((value) {
-        //   setState(() {});
-        // });
+          ),
+        );
+        if (_nToken != null) {
+          return Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (BuildContext context) => SignIn()),
+              (route) => false);
+        }
       },
     );
   }
