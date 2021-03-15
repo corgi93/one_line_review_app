@@ -44,6 +44,51 @@ class FullscreenSliderDemo extends StatelessWidget {
   }
 }
 
+class FllowCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 30.0,
+      ),
+      child: Container(
+        width: 132.0,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: 134.0,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 9,
+                    offset: Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+              ),
+            ),
+            FractionalTranslation(
+              translation: Offset(0.0, -0.4),
+              child: Align(
+                child: CircleAvatar(
+                  radius: 25.0,
+                  backgroundImage: NetworkImage(
+                    'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
+                  ),
+                ),
+                alignment: FractionalOffset(0.5, 0.0),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -171,7 +216,12 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               color: Color(0xfff7f7f7),
             ),
-            padding: EdgeInsets.only(left: 20.0, top: 20.0, bottom: 20.0),
+            padding: EdgeInsets.only(
+              left: 20.0,
+              top: 20.0,
+              bottom: 20.0,
+              right: 20.0,
+            ),
             child: Column(
               children: [
                 Row(
@@ -193,10 +243,22 @@ class _HomePageState extends State<HomePage> {
                       ]),
                     )
                   ],
+                ),
+                // FllowCard
+                GestureDetector(
+                  child: Column(
+                    children: [
+                      FllowCard(),
+                    ],
+                  ),
                 )
               ],
             ),
           )
+
+          /**
+           * 4번째 section
+           */
         ],
       ),
     );

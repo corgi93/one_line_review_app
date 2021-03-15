@@ -83,15 +83,15 @@ class _MyHomePageState extends State<MyHomePage> {
 //            ),
             new BottomNavigationBarItem(
               icon: Icon(Icons.mail),
-              label: '내 영화관',
+              label: '커뮤니티',
             ),
             new BottomNavigationBarItem(
               icon: Icon(Icons.create),
-              label: '리뷰작성',
+              label: '찜',
             ),
             new BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: '프로필',
+              label: '마이페이지',
             ),
           ],
         ),
